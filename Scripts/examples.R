@@ -534,6 +534,69 @@ birds %>%
   birds %>% 
     mutate(first_last = str_replace(species, "^(\\w).+(\\w)$", 
            "First: \\1, Last: \\2"))
-##The END  
+##The END 
+  #or not. Here are some exercises
+  #Question 1
+  #Write a regex function that will:
+    
+  #Replace each word in the location column with the text “word”
+  birds %>% 
+    mutate(word = str_replace_all(location, "\\w+", "word"))
+  #Replace any word seven letters or longer in the species column with the text “long”
+  birds %>% 
+    mutate(long = str_replace_all(species, "\\b\\w{7,}\\b", "long"))
+  #Delete any non-numeric characters from the count column
+  birds %>% 
+    mutate(no_digit = str_remove_all(count, "\\D"))
+  #Create an abbreviation column containing just the uppercase letters from the location column
+  birds %>% 
+    mutate(capitals = str_remove_all(location, "[a-z]+| |\\."))#this works
+  #or
+  bird_capitals <- birds %>% 
+    mutate(capitals = str_extract_all(location, "[A-Z]"))# this gives me a list
+  
+  birds %>% 
+    mutate(abbreviation = str_remove_all(location, "[^A-Z]"))#this is a better solution ^ in this case is a not
+  
+  birds %>% 
+    mutate(abbreviation = str_remove_all(location, "^[A-Z]"))# in this case^ now means at the start
+  
+  
+  #Question 2
+  #Using backreferences:
+    
+  #Double each vowel in the location column
+  
+  birds %>% 
+    mutate(double_vowel = str_replace_all(location, "([aeiou])", "\\1\\1"))
+  #Convert all dates in the date column to have four digit year values
+  birds %>% 
+    mutate(four_digit_year = str_extract(date, "[-|/]\\d\\d$"))
+  
+  birds %>% 
+    mutate(four_digit_year = str_replace(date, "([/|-])(\\d{2})$", "\\120\\2"))
+  
+  #or
+    birds %>% 
+      mutate(replaced_data = str_replace_all(date, "\\b(\\d{2})$", "20\\1"))
+  
+  #Replace the middle letters of each word in the species column with two underscores. 
+    #For example, Crimson Rosella should become C__n R__a
+    birds %>% 
+      mutate(replaced_data = str_replace_all(species, "(\\w)\\w+(\\w)", "\\1__\\2"))
+  #Print the first and last word of each species using the replacement pattern “First: \\1, Last: \\2" (Tip: if you are having trouble, try including the boundary pattern -- `\b`)
+    birds %>% 
+      mutate(replaced_data = str_replace_all(species, "^(\\w+).+(\\b\\w+)$", "First: \\1, Last: \\2"))
+    #this was very hard and it didn't account for only one word eg Magpie
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   
